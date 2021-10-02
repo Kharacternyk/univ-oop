@@ -1,0 +1,49 @@
+@startuml
+
+actor Administrator as admin
+boundary "loginView:\nLoginView" as loginView
+boundary "adminView:\nAdminView" as adminView
+control "loginController:\nLoginController" as loginController
+control "adminController:\nAdminController" as adminController
+entity "doctor:\nDoctor" as doctor
+database Database as db
+
+activate admin
+admin->loginView: login
+activate loginView
+loginView->loginController: login
+activate loginController
+loginController->db: getHashedPassword
+activate db
+db->loginController: return
+deactivate db
+loginController->loginController: comparePasswords
+loginController->loginView: destroy
+destroy loginView
+loginController->adminView: create
+deactivate loginController
+activate adminView
+admin->adminView: getDoctor("Петров П.П.")
+adminView->adminController: getDoctor("Петров П.П.")
+activate adminController
+adminController->db: getDoctor("Петров П.П.")
+activate db
+db->doctor: create
+activate doctor
+db->adminController: return doctor
+deactivate db
+adminController->adminView: showDoctor(doctor)
+admin->adminView: addToSchedule("Monday 14:00-15:00", ...)
+adminView->adminController: addToSchedule("Monday 14:00-15:00", ...)
+adminController->doctor: addToSchedule("Monday 14:00-15:00", ...)
+doctor->db: update
+activate db
+deactivate db
+admin->adminView: addToSchedule("Tuesday 15:00-16:00", ...)
+adminView->adminController: addToSchedule("Tuesday 15:00-16:00", ...)
+adminController->doctor: addToSchedule("Tuesday 15:00-16:00", ...)
+doctor->db: update
+activate db
+deactivate db
+
+@enduml

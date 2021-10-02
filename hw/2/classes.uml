@@ -1,0 +1,100 @@
+@startuml
+skinparam groupInheritance 2
+
+abstract class View
+
+abstract class Controller {
+    -DatabaseConnection databaseConnection
+}
+
+class DatabaseConnection {
+    +Entity[] executeQuery(string query)
+}
+
+abstract class Entity {
+    -DatabaseConnection databaseConnection
+    +void saveToDatabase()
+}
+
+class Doctor {
+    -Contact contact
+    -ScheduleRecord[] schedule
+    +Contact getContact()
+    +void addToSchedule(ScheduleRecord record)
+    +void removeFromSchedule(ScheduleRecord record)
+}
+
+class Admin {
+    -Contact contact
+    -AccessRight[] accessRights
+    +checkPermission(AccessRight right)
+    +grantPermission(AccessRight right)
+}
+
+class Patient {
+    -Contact contact
+    -HealthRecord[] healthHistory
+    +Contact getContact()
+    +HealthRecord[] getLastRecords(int count)
+    +void addToHealthHistory(healthRecord record)
+}
+
+abstract class AuthenticableEntity {
+    -string hashedPassword
+    +bool checkPassword(string password)
+}
+
+class ScheduleRecord {
+    +DateTime dateTime
+    +Patient patient
+    +string purpose
+}
+
+class HealthRecord {
+    +DateTime dateTime
+    +string diagnosis
+    +string suggestedTreatment
+}
+
+enum AccessRight {
+    GRANT_RIGHTS
+    DOCTOR_SCHEDULE
+    DOCTOR_CONTACT
+    PATIENT_CONTACT
+}
+
+class Contact {
+    +string firstName
+    +string lastName
+    +Date birthDate
+}
+
+Controller *-left- DatabaseConnection
+
+Doctor *-- Contact
+Patient *-- Contact
+Admin *-- Contact
+Admin o-- AccessRight
+Doctor *-- ScheduleRecord
+Patient *-- HealthRecord
+
+View <|-- LoginView
+View <|-- AdminView
+View <|-- DoctorView
+
+Controller <|-- LoginController
+Controller <|-- AdminController
+Controller <|-- DoctorController
+
+Controller .right.> View: renders
+View .left.> Controller: dispatches GUI events
+
+Entity .right.> DatabaseConnection: writes to
+DatabaseConnection .left.> Entity: creates
+
+Entity <|-- Patient
+Entity <|-- AuthenticableEntity
+AuthenticableEntity <|-- Doctor
+AuthenticableEntity <|-- Admin
+
+@enduml
