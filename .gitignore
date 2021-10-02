@@ -1,6 +1,7 @@
 ### Custom ###
 *.svg
 *.pdf
+dist/
 
 ### Node ###
 # Logs
