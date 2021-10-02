@@ -1,0 +1,9 @@
+{
+  "main": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "author": "Nazar Vinnichuk",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
+}
