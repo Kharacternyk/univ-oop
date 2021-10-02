@@ -1,0 +1,63 @@
+digraph ClassDep {
+    graph [nodesep=1 ranksep=1]
+    node [shape=record fontname=monospace]
+    edge [arrowhead=vee style=dashed fontname=monospace]
+
+    Doctor [label="{
+        Doctor
+        \l|+ login(name: string, password: string): Doctor? \<\<static\>\>
+        \l+ getAssignedPatient(): PatientId?
+        \l+ getHealthHistory(id: PatientId): HealthHistory
+        \l+ setBill(id: PatientId, bill: Bill): void
+        \l
+    }"]
+
+    Receptionist [label="{
+        Receptionist
+        \l|+ login(name: string, password: string): Receptionist? \<\<static\>\>
+        \l+ createPatient(): PatientId
+        \l+ queryPatients(info: string): Array\<PatientId\>
+        \l+ getPatientContact(id: PatientId): Contact
+        \l+ setPatientContact(id: PatientId, contact: Contact): void
+        \l+ deletePatient(id: PatientId): void
+        \l+ queryDoctors(info: string): Array\<DoctorId\>
+        \l+ assignDoctor(patientId: PatientId, doctorId: DoctorId): void
+        \l+ getBill(id: PatientId): Bill
+        \l
+    }"]
+
+    HealthHistory [label="{
+        HealthHistory
+        \l|+ getRecords(): Array\<HealthRecords\>
+        \l|+ addRecord(record: HealthRecord): void
+        \l
+    }"]
+
+    HealthRecord [label="{
+        HealthRecord
+        \l|- date: Date \<\<get/set\>\>
+        \l- symptoms: Array\<string\> \<\<get/set\>\>
+        \l- suggestedTreatment: string \<\<get/set\>\>
+        \l- ...
+        \l
+    }"]
+
+    Contact [label="{
+        Contact
+        \l|- name: string \<\<get/set\>\>
+        \l- birthDate: Date \<\<get/set\>\>
+        \l- ...
+        \l
+    }"]
+
+    Bill [label="{
+        Bill
+        \l|- services: Map\<string, Money\> \<\<get/set\>\> 
+    }"]
+
+    Doctor->HealthHistory [label=" works with"]
+    Doctor->Bill [label=" creates"]
+    HealthRecord->HealthHistory [arrowhead=diamond style=solid]
+    Receptionist->Contact [label=" works with"]
+    Receptionist->Bill [label=" checkouts"]
+}

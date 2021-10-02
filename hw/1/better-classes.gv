@@ -1,0 +1,72 @@
+digraph ClassDep {
+    graph [nodesep=1 ranksep=1]
+    node [shape=record fontname=monospace]
+    edge [arrowhead=vee style=dashed fontname=monospace]
+    
+    Employee [label="{
+        Employee
+        \l|+ login(name: string, password: string): Employee? \<\<static\>\>
+        \l
+    }"]
+
+    Doctor [label="{
+        Doctor
+        \l|+ getAssignedPatient(): PatientId?
+        \l+ getHealthHistory(id: PatientId): HealthHistory
+        \l+ setBill(id: PatientId, bill: Bill): void
+        \l
+    }"]
+
+    Receptionist [label="{
+        Receptionist
+        \l|+ createPatient(): PatientId
+        \l+ queryPatients(info: string): Array\<PatientId\>
+        \l+ getPatientContact(id: PatientId): Contact
+        \l+ setPatientContact(id: PatientId, contact: Contact): void
+        \l+ deletePatient(id: PatientId): void
+        \l+ queryDoctors(info: string): Array\<DoctorId\>
+        \l+ assignDoctor(patientId: PatientId, doctorId: DoctorId): void
+        \l+ getBill(id: PatientId): Bill
+        \l
+    }"]
+
+    HealthHistory [label="{
+        HealthHistory
+        \l|+ getRecords(): Array\<HealthRecords\>
+        \l|+ addRecord(record: HealthRecord): void
+        \l
+    }"]
+
+    HealthRecord [label="{
+        HealthRecord
+        \l|- date: Date \<\<get/set\>\>
+        \l- symptoms: Array\<string\> \<\<get/set\>\>
+        \l- diagnosis: Array\<string\> \<\<get/set\>\>
+        \l- suggestedTreatment: string \<\<get/set\>\>
+        \l- suggestedNextAppointment: Date \<\<get/set\>\>
+        \l- : string \<\<get/set\>\>
+        \l- ...
+        \l
+    }"]
+
+    Contact [label="{
+        Contact
+        \l|- name: string \<\<get/set\>\>
+        \l- birthDate: Date \<\<get/set\>\>
+        \l- ...
+        \l
+    }"]
+
+    Bill [label="{
+        Bill
+        \l|- services: Map\<string, Money\> \<\<get/set\>\> 
+    }"]
+
+    Doctor->HealthHistory [label=" reads/modifies"]
+    Doctor->Bill [label=" creates"]
+    HealthHistory->HealthRecord [arrowtail=diamond style=solid dir=back]
+    Receptionist->Contact [label=" reads/modifies"]
+    Receptionist->Bill [label=" checkouts"]
+    Employee->Doctor [arrowtail=onormal style=solid dir=back]
+    Employee->Receptionist [arrowtail=onormal style=solid dir=back]
+}

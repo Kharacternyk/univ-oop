@@ -1,0 +1,48 @@
+digraph UseCase {
+    rankdir=LR
+    edge [
+        style=bold
+    ]
+    node [
+        shape=box
+        style="bold,diagonals"
+        fontname="monospace italic"
+    ]
+    Dr [label=Лікар]
+    Reception [label=Рецепшионіст]
+
+    node [
+        style="rounded,bold"
+        shape=box
+    ]
+    subgraph cluster_UseCases {
+        style="rounded,dashed,bold"
+        edge [style=dashed]
+        Login [label="Увійти в систему"]
+        Create [label="Створити профіль пацієнта"]
+        Read [label="Отримати історію хвороб пацієнта"]
+        Update [label="Внести зміни до історії хвороб пацієнта"]
+        СRead [label="Отримати контактні дані пацієнта"]
+        СUpdate [label="Внести зміни до контактних даних пацієнта"]
+        Status [label="Призначити лікаря до пацієнта"]
+        Payout [label="Розрахувати пацієнта"]
+        Delete [label="Видалити профіль пацієнта"]
+    }
+    Dr->{
+        Login
+        Read
+        Update
+        Payout
+    }
+    {
+        Login
+        Status
+        Create
+        СUpdate
+        СRead
+        Payout
+        Delete
+    }->Reception [
+        dir=back
+    ]
+}
