@@ -1,29 +1,35 @@
 grammar Expression;
 
 expression:
+    EOF #Undefined
+    |
+    definedExpression #Defined
+    ;
+
+definedExpression:
     Number #Number
     |
     Cell #Cell
     |
-    LeftBrace expression RightBrace #Braced
+    LeftBrace definedExpression RightBrace #Braced
     |
-    Addition expression #Positive
+    Addition definedExpression #Positive
     |
-    Substraction expression #Negative
+    Substraction definedExpression #Negative
     |
-    Increment LeftBrace expression RightBrace #Increment
+    Increment LeftBrace definedExpression RightBrace #Increment
     |
-    Decrement LeftBrace expression RightBrace #Decrement
+    Decrement LeftBrace definedExpression RightBrace #Decrement
     |
-    Modulo LeftBrace expression Separator expression RightBrace #Modulo
+    Modulo LeftBrace definedExpression Separator definedExpression RightBrace #Modulo
     |
-    expression Addition expression #Addition
+    definedExpression Addition definedExpression #Addition
     |
-    expression Substraction expression #Substraction
+    definedExpression Substraction definedExpression #Substraction
     |
-    expression Multiplication expression #Multiplication
+    definedExpression Multiplication definedExpression #Multiplication
     |
-    expression Division expression #Division
+    definedExpression Division definedExpression #Division
     ;
 
 Cell: ('A'..'Z') Number;

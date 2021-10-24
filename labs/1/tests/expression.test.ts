@@ -36,6 +36,8 @@ function check(input, expected) {
     });
 }
 
+check("", true);
+check("\t  ", true);
 check("42", true);
 check("inc(512)", true);
 check("dec(inc(((123))) + 2)", true);
@@ -51,7 +53,7 @@ check("mod(5, C22)", true);
 check("100 000 000", true);
 
 check("1.0", false);
+check("C22 +", false);
 check("inc1", false);
-check("\t  ", false); 
 check("((0)", false);
 check("mod(5 2)", false);
