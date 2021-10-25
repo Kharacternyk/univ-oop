@@ -10,6 +10,11 @@ import {
 
 import { ParseCancellationException } from 'antlr4ts/misc';
 
+const CELL_STUBS = {
+    A1: 1,
+    B2: 2,
+};
+
 class ThrowingErrorListener implements ParserErrorListener {
     public syntaxError(recognizer, symbol, line, position, message, error) {
         const cause = new Error(message);
@@ -29,7 +34,7 @@ function check(input, expected) {
     parser.addErrorListener(new ThrowingErrorListener());
 
     const expression = parser.expression()
-    const evaluator = new EvaluatorVisitor();
+    const evaluator = new EvaluatorVisitor(cell => CELL_STUBS[cell] ?? 0);
 
     test(`"${input}" is evaluated to ${expected}`, () => {
         const result = evaluator.visit(expression);
@@ -47,3 +52,5 @@ check("div(42, 5)", 8);
 check("6 * (2 + 5)", 42);
 check("6 / (2 - 5)", -2);
 check("6 * 2 + 5", 17);
+check("A1 + B2 + C3", 3);
+check("A1 * B2 * C3", 0);

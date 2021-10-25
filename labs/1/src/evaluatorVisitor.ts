@@ -6,12 +6,23 @@ export
 class EvaluatorVisitor
 extends AbstractParseTreeVisitor<number>
 implements ExpressionVisitor<number> {
+    private readonly cellValueRetriever: (cell: string) => number;
+
+    constructor(cellValueRetriever) {
+        super();
+        this.cellValueRetriever = cellValueRetriever;
+    }
+
     defaultResult() {
         return 0;
     }
 
     visitNumber(context) {
         return Number(context.text);
+    }
+
+    visitCell(context) {
+        return this.cellValueRetriever(context.text);
     }
 
     visitBraced(context) {
