@@ -1,5 +1,6 @@
 import { ExpressionLexer } from '../src/grammar/ExpressionLexer';
 import { ExpressionParser } from '../src/grammar/ExpressionParser';
+import { EvaluatorVisitor } from '../src/evaluatorVisitor';
 
 import {
     ANTLRInputStream,
@@ -27,32 +28,19 @@ function check(input, expected) {
     parser.removeErrorListeners();
     parser.addErrorListener(new ThrowingErrorListener());
 
-    test(`"${input}" is ${expected ? "" : "not "}an expression`, () => {
-        if (expected) {
-            parser.expression()
-        } else {
-            expect(() => parser.expression()).toThrow();
-        }
+    const expression = parser.expression()
+    const evaluator = new EvaluatorVisitor();
+
+    test(`"${input}" is evaluated to ${expected}`, () => {
+        const result = evaluator.visit(expression);
+        expect(result).toBe(expected);
     });
 }
 
-check("42", true);
-check("inc(512)", true);
-check("dec(inc(((123))) + 2)", true);
-check("(((0)))", true);
-check("C22", true);
-check("A2+3", true);
-check("A2 + 3", true);
-check("A2/3 + C22*(1 + Z1)", true);
-check("-2 + -B2", true);
-check("-1--2", true);
-check("+++-+4", true);
-check("mod(5, C22)", true);
-check("100 000 000", true);
-
-check("\t  ", false);
-check("1.0", false);
-check("C22 +", false);
-check("inc1", false);
-check("((0)", false);
-check("mod(5 2)", false);
+check("42", 42);
+check("((42))", 42);
+check("inc(42)", 43);
+check("dec(inc(42))", 42);
+check("mod(42, 5)", 2);
+check("6 * (2 + 5)", 42);
+check("6 / (2 - 5)", -2);
