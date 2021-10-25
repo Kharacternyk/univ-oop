@@ -38,9 +38,12 @@ function check(input, expected) {
 }
 
 check("42", 42);
+check("1.7", 1.7);
 check("((42))", 42);
 check("inc(42)", 43);
 check("dec(inc(42))", 42);
 check("mod(42, 5)", 2);
+check("div(42, 5)", 8);
 check("6 * (2 + 5)", 42);
 check("6 / (2 - 5)", -2);
+check("6 * 2 + 5", 17);

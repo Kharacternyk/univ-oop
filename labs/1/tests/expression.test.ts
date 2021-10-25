@@ -37,10 +37,12 @@ function check(input, expected) {
 }
 
 check("42", true);
+check("1.7", true);
 check("inc(512)", true);
 check("dec(inc(((123))) + 2)", true);
 check("(((0)))", true);
 check("C22", true);
+check("ABC123", true);
 check("A2+3", true);
 check("A2 + 3", true);
 check("A2/3 + C22*(1 + Z1)", true);
@@ -48,10 +50,11 @@ check("-2 + -B2", true);
 check("-1--2", true);
 check("+++-+4", true);
 check("mod(5, C22)", true);
+check("div(5, C22)", true);
 check("100 000 000", true);
 
 check("\t  ", false);
-check("1.0", false);
+check("123ABC", false);
 check("C22 +", false);
 check("inc1", false);
 check("((0)", false);

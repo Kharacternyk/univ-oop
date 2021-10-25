@@ -34,10 +34,6 @@ implements ExpressionVisitor<number> {
         return this.visit(context.expression()) - 1;
     }
 
-    visitModulo(context) {
-        return this.visit(context.expression(0)) % this.visit(context.expression(1));
-    }
-
     visitAddition(context) {
         return this.visit(context.expression(0)) + this.visit(context.expression(1));
     }
@@ -52,5 +48,15 @@ implements ExpressionVisitor<number> {
 
     visitDivision(context) {
         return this.visit(context.expression(0)) / this.visit(context.expression(1));
+    }
+
+    visitModulo(context) {
+        return this.visit(context.expression(0)) % this.visit(context.expression(1));
+    }
+
+    visitQuotient(context) {
+        return Math.floor(
+            this.visit(context.expression(0)) / this.visit(context.expression(1))
+        );
     }
 }

@@ -15,19 +15,22 @@ expression:
     |
     Decrement LeftBrace expression RightBrace #Decrement
     |
-    Modulo LeftBrace expression Separator expression RightBrace #Modulo
+    expression Multiplication expression #Multiplication
+    |
+    expression Division expression #Division
     |
     expression Addition expression #Addition
     |
     expression Substraction expression #Substraction
     |
-    expression Multiplication expression #Multiplication
+    Modulo LeftBrace expression Separator expression RightBrace #Modulo
     |
-    expression Division expression #Division
+    Quotient LeftBrace expression Separator expression RightBrace #Quotient
     ;
 
-Cell: ('A'..'Z') Number;
-Number: ('0'..'9')+;
+Cell: ('A'..'Z')+ Integer;
+Number: Integer ('.' Integer)?;
+Integer: ('0'..'9')+;
 LeftBrace: '(';
 RightBrace: ')';
 Increment: 'inc';
@@ -37,6 +40,7 @@ Substraction: '-';
 Multiplication: '*';
 Division: '/';
 Modulo: 'mod';
+Quotient: 'div';
 Separator: ',';
 
 WhiteSpace: [\t\n\r ] -> channel(HIDDEN);
