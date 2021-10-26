@@ -1,0 +1,33 @@
+<form id=evaluator>
+    <input id=expression>
+    <input type=submit value=Evaluate>
+</form>
+<span id=result></span>
+<span id=error></span>
+
+<script>
+    ipc.handleEvaluated((event, result) => {
+        document.getElementById("result").innerText = result;
+        document.getElementById("error").innerText = "";
+    });
+
+    ipc.handleRejected((event, message) => {
+        document.getElementById("result").innerText = "";
+        document.getElementById("error").innerText = message;
+    });
+
+    document.getElementById("evaluator").addEventListener("submit", event => {
+        event.preventDefault();
+        ipc.requestEvaluation(document.getElementById("expression").value);
+    });
+</script>
+
+<style>
+    * {
+        font-size: 20;
+    }
+
+    #error {
+        color: red;
+    }
+</style>

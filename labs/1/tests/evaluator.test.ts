@@ -1,38 +1,22 @@
-import { ExpressionLexer } from '../src/grammar/ExpressionLexer';
-import { ExpressionParser } from '../src/grammar/ExpressionParser';
+import { Lexer } from '../src/lexer';
+import { Parser } from '../src/parser';
 import { EvaluatorVisitor } from '../src/evaluatorVisitor';
 
 import {
     ANTLRInputStream,
     CommonTokenStream,
-    ParserErrorListener,
 } from 'antlr4ts';
-
-import { ParseCancellationException } from 'antlr4ts/misc';
 
 const CELL_STUBS = {
     A1: 1,
     B2: 2,
 };
 
-class ThrowingErrorListener implements ParserErrorListener {
-    public syntaxError(recognizer, symbol, line, position, message, error) {
-        const cause = new Error(message);
-        throw new ParseCancellationException(cause);
-    }
-}
-
 function check(input, expected) {
     const inputStream = new ANTLRInputStream(input);
-    const lexer = new ExpressionLexer(inputStream);
+    const lexer = new Lexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
-    const parser = new ExpressionParser(tokenStream);
-
-    lexer.removeErrorListeners();
-    lexer.addErrorListener(new ThrowingErrorListener());
-    parser.removeErrorListeners();
-    parser.addErrorListener(new ThrowingErrorListener());
-
+    const parser = new Parser(tokenStream);
     const expression = parser.expression()
     const evaluator = new EvaluatorVisitor(cell => CELL_STUBS[cell] ?? 0);
 
