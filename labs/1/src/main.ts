@@ -1,14 +1,19 @@
-import { Lexer } from './lexer';
-import { Parser } from './parser';
-import { EvaluatorVisitor } from './evaluatorVisitor';
-
-import {
-    ANTLRInputStream,
-    CommonTokenStream,
-} from 'antlr4ts';
+import { Spreadsheet } from "./spreadsheet";
 
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
+
+const sheet = new Spreadsheet();
+
+ipcMain.on("evaluate", (event, cell, expression) => {
+    try {
+        sheet.listen((cell, value) => event.sender.send("evaluated", cell, value));
+        sheet.setExpression(cell, expression);
+        sheet.unlisten();
+    } catch (error) {
+        event.sender.send("rejected", cell, error.message);
+    }
+});
 
 app.whenReady().then(() => {
     const window = new BrowserWindow({
@@ -20,21 +25,3 @@ app.whenReady().then(() => {
     window.loadFile(path.join(app.getAppPath(), "index.html"));
 });
 
-function cellValueRetriever(cell) {
-    return 0;
-}
-
-ipcMain.on("evaluate", (event, input) => {
-    try {
-        const inputStream = new ANTLRInputStream(input);
-        const lexer = new Lexer(inputStream);
-        const tokenStream = new CommonTokenStream(lexer);
-        const parser = new Parser(tokenStream);
-        const expression = parser.expression()
-        const evaluator = new EvaluatorVisitor(cellValueRetriever);
-
-        event.sender.send("evaluated", evaluator.visit(expression));
-    } catch (error) {
-        event.sender.send("rejected", error.message);
-    }
-});

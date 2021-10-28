@@ -27,6 +27,10 @@ export class Spreadsheet {
         this.listener = listener;
     }
 
+    public unlisten() {
+        delete this.listener;
+    }
+
     private evaluate() {
         this.cellValues = {};
         for (const cell in this.cellTrees) {
