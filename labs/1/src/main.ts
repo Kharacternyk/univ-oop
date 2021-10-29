@@ -9,7 +9,6 @@ ipcMain.on("evaluate", (event, cell, expression) => {
     try {
         sheet.listen((cell, value) => event.sender.send("evaluated", cell, value));
         sheet.setExpression(cell, expression);
-        sheet.unlisten();
     } catch (error) {
         event.sender.send("rejected", cell, error.message);
     }

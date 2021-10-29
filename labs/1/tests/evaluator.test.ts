@@ -25,6 +25,7 @@ function check(input: string, expected: number) {
 }
 
 check("42", 42);
+check("+--42", 42);
 check("1.7", 1.7);
 check("((42))", 42);
 check("inc(42)", 43);

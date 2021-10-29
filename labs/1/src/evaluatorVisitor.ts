@@ -23,8 +23,9 @@ implements ExpressionVisitor<number> {
         this.cellValueRetriever = cellValueRetriever;
     }
 
-    defaultResult() {
-        return 0;
+    /* istanbul ignore next */
+    defaultResult(): number {
+        throw new Error("uncovered rule");
     }
 
     visitNumber(context: TerminalContext) {

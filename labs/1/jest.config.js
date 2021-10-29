@@ -2,4 +2,10 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "src/**",
+    "!src/grammar/**",
+    "!src/main.ts"
+  ],
 };

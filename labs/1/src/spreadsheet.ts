@@ -13,7 +13,7 @@ type listener = (cell: string, value: number) => void;
 export class Spreadsheet {
     private cellTrees: Map<string, ParseTree> = new Map();
     private cellValues: Map<string, number> = new Map();
-    private listener: listener | null;
+    private listener: listener = () => 0;
 
     public setExpression(cell: string, input: string) {
         const inputStream = new ANTLRInputStream(input);
@@ -27,10 +27,6 @@ export class Spreadsheet {
 
     public listen(listener: listener) {
         this.listener = listener;
-    }
-
-    public unlisten() {
-        this.listener = null;
     }
 
     private evaluate() {
@@ -54,10 +50,7 @@ export class Spreadsheet {
         const value: number = evaluator.visit(this.cellTrees.get(cell));
 
         this.cellValues.set(cell, value);
-
-        if (this.listener) {
-            this.listener(cell, value);
-        }
+        this.listener(cell, value);
 
         return value;
     }
