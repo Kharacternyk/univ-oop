@@ -2,7 +2,7 @@ import { Spreadsheet } from "../src/spreadsheet";
 
 test("a spreadsheet evaluates a single cell", () => {
     const sheet = new Spreadsheet();
-    const listener = (cell, value) => {
+    const listener = (cell: string, value: number) => {
         if (cell == "A1") {
             expect(value).toBe(42);
         }
@@ -14,7 +14,7 @@ test("a spreadsheet evaluates a single cell", () => {
 
 test("a spreadsheet evaluates a dependant cell", () => {
     const sheet = new Spreadsheet();
-    const listener = (cell, value) => {
+    const listener = (cell: string, value: number) => {
         if (cell == "B1") {
             expect(value).toBe(42);
         }
@@ -27,7 +27,7 @@ test("a spreadsheet evaluates a dependant cell", () => {
 
 test("a spreadsheet reevaluates a dependant cell", () => {
     const sheet = new Spreadsheet();
-    const listener = (cell, value) => {
+    const listener = (cell: string, value: number) => {
         if (cell == "B1") {
             expect(value).toBe(4);
         }

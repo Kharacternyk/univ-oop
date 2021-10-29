@@ -6,7 +6,7 @@ import {
     CommonTokenStream,
 } from 'antlr4ts';
 
-function check(input, expected) {
+function check(input: string, expected: boolean) {
     const inputStream = new ANTLRInputStream(input);
     const lexer = new Lexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
