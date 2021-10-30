@@ -24,6 +24,7 @@
         <input data-cell=C3>
     </div>
 </div>
+<button id=save type=button> Save </button>
 
 <script>
     "use strict";
@@ -41,6 +42,10 @@
                 ipc.requestEvaluation(event.target.dataset.cell, event.target.value);
             }
         }
+    });
+
+    document.getElementById("save").addEventListener("click", event => {
+        ipc.requestSave();
     });
 
     ipc.handleEvaluated((event, cell, value) => {
@@ -67,6 +72,10 @@
         margin: 0;
     }
 
+    * {
+        font-size: 20;
+    }
+
     .row {
         display: flex;
     }
@@ -79,7 +88,6 @@
     input {
         flex: 1 1 0;
         min-width: 0;
-        font-size: 20;
     }
 
     input[readonly] {

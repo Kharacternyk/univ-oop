@@ -11,6 +11,7 @@ import {
 type Listener = (cell: string, value: number) => void;
 
 export class Spreadsheet {
+    private cellInputs: Map<string, string> = new Map();
     private cellTrees: Map<string, ParseTree> = new Map();
     private cellValues: Map<string, number> = new Map();
     private listener: Listener = () => 0;
@@ -21,12 +22,23 @@ export class Spreadsheet {
         const tokenStream = new CommonTokenStream(lexer);
         const parser = new Parser(tokenStream);
 
+        this.cellInputs.set(cell, input);
         this.cellTrees.set(cell, parser.expression());
         this.evaluate();
     }
 
     public setListener(listener: Listener) {
         this.listener = listener;
+    }
+
+    public toString(): string {
+        return JSON.stringify(Array.from(this.cellInputs.entries()));
+    }
+
+    public fromString(serialized: string) {
+        for (const [cell, input] of JSON.parse(serialized)) {
+            this.setExpression(cell, input);
+        }
     }
 
     private evaluate() {
