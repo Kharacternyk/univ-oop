@@ -14,6 +14,9 @@ export class Spreadsheet {
     private cellInputs: Map<string, string> = new Map();
     private cellTrees: Map<string, ParseTree> = new Map();
     private cellValues: Map<string, number> = new Map();
+    private evaluator: EvaluatorVisitor = new EvaluatorVisitor(
+        cell => this.evaluateCell(cell)
+    );
     private listener: Listener = () => 0;
 
     public setExpression(cell: string, input: string) {
@@ -56,10 +59,7 @@ export class Spreadsheet {
             return this.cellValues.get(cell);
         }
 
-        const evaluator: EvaluatorVisitor = new EvaluatorVisitor(
-            cell => this.evaluateCell(cell)
-        );
-        const value: number = evaluator.visit(this.cellTrees.get(cell));
+        const value: number = this.evaluator.visit(this.cellTrees.get(cell));
 
         this.cellValues.set(cell, value);
         this.listener(cell, value);
