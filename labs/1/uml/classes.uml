@@ -77,7 +77,7 @@ class Spreadsheet {
 }
 
 note right of Spreadsheet::listener
-    A delegate of type (string cell, number value) ⇒ void
+    A delegate of type (string cell, number value, string expression) ⇒ void
 end note
 
 Lexer <.. Spreadsheet : creates

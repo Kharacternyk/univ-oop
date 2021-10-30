@@ -49,8 +49,9 @@ test("a spreadsheet throws on an undefined cell", () => {
 test("a spreadsheet can be serialized and deserialized", () => {
     const source = new Spreadsheet();
     const sink = new Spreadsheet();
-    const listener = (cell: string, value: number) => {
+    const listener = (cell: string, value: number, expression: string) => {
         if (cell == "B1") {
+            expect(expression).toBe("A1 * A1");
             expect(value).toBe(4);
         }
     };

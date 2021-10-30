@@ -1,7 +1,7 @@
 import { Spreadsheet } from "./spreadsheet";
 
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
-import { writeFileSync } from "fs";
+import { writeFileSync, readFileSync } from "fs";
 import path from "path";
 
 const sheet = new Spreadsheet();
@@ -19,6 +19,21 @@ ipcMain.on("save", () => {
     const location = dialog.showSaveDialogSync({});
     if (location) {
         writeFileSync(location, sheet.toString());
+    }
+});
+
+ipcMain.on("load", event => {
+    const [location] = dialog.showOpenDialogSync({});
+    if (location) {
+        const serialized = readFileSync(location, "utf8");
+        try {
+            sheet.setListener((cell, value, expression) => {
+                event.sender.send("loaded", cell, value, expression);
+            });
+            sheet.fromString(serialized);
+        } catch (error) {
+            dialog.showErrorBox("Cannot open the file", error.message);
+        }
     }
 });
 

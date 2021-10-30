@@ -8,7 +8,7 @@ import {
     CommonTokenStream,
 } from 'antlr4ts';
 
-type Listener = (cell: string, value: number) => void;
+type Listener = (cell: string, value: number, expression: string) => void;
 
 export class Spreadsheet {
     private cellInputs: Map<string, string> = new Map();
@@ -62,7 +62,7 @@ export class Spreadsheet {
         const value: number = this.evaluator.visit(this.cellTrees.get(cell));
 
         this.cellValues.set(cell, value);
-        this.listener(cell, value);
+        this.listener(cell, value, this.cellInputs.get(cell));
 
         return value;
     }

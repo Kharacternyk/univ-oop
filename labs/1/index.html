@@ -25,6 +25,7 @@
     </div>
 </div>
 <button id=save type=button> Save </button>
+<button id=load type=button> Load </button>
 
 <script>
     "use strict";
@@ -44,9 +45,8 @@
         }
     });
 
-    document.getElementById("save").addEventListener("click", event => {
-        ipc.requestSave();
-    });
+    document.getElementById("save").addEventListener("click", event => ipc.requestSave());
+    document.getElementById("load").addEventListener("click", event => ipc.requestLoad());
 
     ipc.handleEvaluated((event, cell, value) => {
         const input = document.querySelector(`[data-cell=${cell}]`);
@@ -54,6 +54,14 @@
         if (input.readOnly) {
             input.value = value;
         }
+        input.classList.remove("error");
+    });
+
+    ipc.handleLoaded((event, cell, value, expression) => {
+        const input = document.querySelector(`[data-cell=${cell}]`);
+        input.dataset.expression = expression;
+        input.dataset.value = input.value = value;
+        input.readOnly = true;
         input.classList.remove("error");
     });
 
