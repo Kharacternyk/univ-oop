@@ -8,12 +8,12 @@ import {
     CommonTokenStream,
 } from 'antlr4ts';
 
-type listener = (cell: string, value: number) => void;
+type Listener = (cell: string, value: number) => void;
 
 export class Spreadsheet {
     private cellTrees: Map<string, ParseTree> = new Map();
     private cellValues: Map<string, number> = new Map();
-    private listener: listener = () => 0;
+    private listener: Listener = () => 0;
 
     public setExpression(cell: string, input: string) {
         const inputStream = new ANTLRInputStream(input);
@@ -25,7 +25,7 @@ export class Spreadsheet {
         this.evaluate();
     }
 
-    public listen(listener: listener) {
+    public setListener(listener: Listener) {
         this.listener = listener;
     }
 

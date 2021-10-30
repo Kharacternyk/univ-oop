@@ -7,7 +7,7 @@ const sheet = new Spreadsheet();
 
 ipcMain.on("evaluate", (event, cell, expression) => {
     try {
-        sheet.listen((cell, value) => event.sender.send("evaluated", cell, value));
+        sheet.setListener((cell, value) => event.sender.send("evaluated", cell, value));
         sheet.setExpression(cell, expression);
     } catch (error) {
         event.sender.send("rejected", cell, error.message);

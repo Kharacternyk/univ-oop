@@ -8,7 +8,7 @@ test("a spreadsheet evaluates a single cell", () => {
         }
     };
 
-    sheet.listen(listener);
+    sheet.setListener(listener);
     sheet.setExpression("A1", "42");
 });
 
@@ -20,7 +20,7 @@ test("a spreadsheet evaluates a dependant cell", () => {
         }
     };
 
-    sheet.listen(listener);
+    sheet.setListener(listener);
     sheet.setExpression("A1", "42");
     sheet.setExpression("B1", "A1");
 });
@@ -36,7 +36,7 @@ test("a spreadsheet reevaluates a dependant cell", () => {
     sheet.setExpression("A1", "1");
     sheet.setExpression("B1", "A1 * A1");
 
-    sheet.listen(listener);
+    sheet.setListener(listener);
     sheet.setExpression("A1", "2");
 });
 
