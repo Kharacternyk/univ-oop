@@ -1,0 +1,87 @@
+@startuml
+
+skinparam genericDisplay old
+
+interface ExpressionVisitor<Result> {
+    +Result visitNumber(NumberContext ctx)
+    +Result visitCell(CellCountext ctx)
+    {method} ...
+}
+
+class AbstractParseTreeVisitor<Result> {
+    +Result visit(ParseTree tree)
+    #Result defaultResult()
+    {method} ...
+}
+
+class EvaluatorVisitor {
+    -CellValueRetriever cellValueRetriever
+}
+
+note right of EvaluatorVisitor::cellValueRetriever
+    A delegate of type (string cell) ⇒ number
+end note
+
+ExpressionVisitor <|-- EvaluatorVisitor : <number>
+AbstractParseTreeVisitor <|-- EvaluatorVisitor : <number>
+
+class ExpressionLexer {
+    +ExpressionLexer(CharStream input)
+    {method} ...
+}
+
+class Lexer {
+    +Lexer(CharStream input)
+}
+
+ExpressionLexer <|-- Lexer
+
+class ExpressionParser {
+    +ExpressionParser(TokenStream input)
+    {method} ...
+}
+
+class Parser {
+    +Parser(TokenStream input)
+}
+
+ExpressionParser <|-- Parser
+
+interface ParserErrorListener {
+    +syntaxError(...)
+}
+
+class ThrowingErrorListener {
+    +syntaxError(...)
+}
+
+ParserErrorListener <|-- ThrowingErrorListener
+
+Lexer .right.> ThrowingErrorListener : attaches to itself
+Parser .left.> ThrowingErrorListener : attaches to itself
+
+class Spreadsheet {
+    -Map<string, string> cellInputs
+    -Map<string, ParseTree> cellTrees
+    -Map<string, number> cellValues
+    -EvaluatorVisitor evaluator
+    -Listener listener
+
+    +void setExpression(string cell, string input)
+    +void setListener(Listener listener)
+    +string toString()
+    +void fromString(string serialized)
+
+    -void evaluate()
+    -number evaluateCell(string cell)
+}
+
+note right of Spreadsheet::listener
+    A delegate of type (string cell, number value) ⇒ void
+end note
+
+Lexer <.. Spreadsheet : creates
+Parser <.. Spreadsheet : creates
+EvaluatorVisitor --* Spreadsheet
+
+@enduml
