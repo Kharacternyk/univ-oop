@@ -23,7 +23,7 @@ ipcMain.on("save", () => {
 });
 
 ipcMain.on("load", event => {
-    const [location] = dialog.showOpenDialogSync({});
+    const [location] = dialog.showOpenDialogSync({}) || [];
     if (location) {
         const serialized = readFileSync(location, "utf8");
         try {
@@ -45,5 +45,6 @@ app.whenReady().then(() => {
         }
     });
     window.loadFile(path.join(app.getAppPath(), "index.html"));
+    window.setMenu(null);
 });
 
