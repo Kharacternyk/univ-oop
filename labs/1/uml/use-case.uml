@@ -1,0 +1,23 @@
+@startuml
+
+left to right direction
+
+actor User
+
+package "Spreadsheet Application" {
+    usecase "Load a file" as u1
+    usecase "Add a row" as u2
+    usecase "Add a column" as u3
+    usecase "Edit the expression in a cell" as u4
+    usecase "View the numerical value of a cell" as u5
+    usecase "Save the file" as u6
+}
+
+User-->u1
+User-->u2
+User-->u3
+User-->u4
+User-->u5
+User-->u6
+
+@enduml

@@ -1,0 +1,48 @@
+@startuml
+
+actor "User" as user
+boundary "HTML/CSS/JS UI Layer" as ui
+control "Main Script (main.ts)" as main
+control "sheet: Spreadsheet" as sheet
+entity "lexer: Lexer" as lexer
+entity "parser: Parser" as parser
+control "evaluator: EvaluatorVisitor" as evaluator
+
+activate user
+activate ui
+
+user->ui : enters "B2+8*2" into A1
+
+ui->main : messages "evaluate" "A1" "B2+8*2"
+activate main
+
+main->sheet : setExpression("A1", "B2+8*2")
+activate sheet
+
+sheet->lexer : Lexer(ANTLRInputStream("B2+8*2"))
+activate lexer
+
+sheet->parser : Parser(CommonTokenStream(lexer))
+activate parser
+sheet->parser : expression()
+parser->sheet : parseTree
+destroy parser
+destroy lexer
+
+sheet->evaluator : visit(parseTree)
+activate evaluator
+evaluator->sheet : cellValueRetriever("B2")
+sheet->evaluator : 3
+evaluator->sheet : 19
+deactivate evaluator
+
+sheet->main : 19
+deactivate sheet
+
+main->ui : messages "evaluated" "A1" 19
+deactivate main
+
+ui->user : displays 19 in A1
+
+
+@enduml
