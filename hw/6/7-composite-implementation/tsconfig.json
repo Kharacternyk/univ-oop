@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "ES6",
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "noImplicitAny": true
+  },
+  "exclude": [
+    "node_modules",
+    "tests"
+  ]
+}
