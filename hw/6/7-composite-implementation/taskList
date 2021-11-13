@@ -1,4 +1,0 @@
-import {Task} from "./taskList";
-
-export class Task implements TaskList {
-    
