@@ -11,7 +11,7 @@ export class DomSearchStrategy implements SearchStrategy {
 
     private search(node: any, query: string) {
         if (node.nodeValue) {
-            if (node.nodeValue.indexOf(query) !== -1) {
+            if (node.nodeValue.includes(query)) {
                 return [this.getAncestorId(node)];
             } else {
                 return [];

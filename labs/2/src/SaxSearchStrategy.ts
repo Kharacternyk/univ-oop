@@ -14,7 +14,7 @@ export class SaxSearchStrategy implements SearchStrategy {
         parser.ontext = text => {
             if (currentTag === "id") {
                 currentNodeId = text;
-            } else if (text.indexOf(query) !== -1) {
+            } else if (text.includes(query)) {
                 result.push(currentNodeId);
             }
         }
