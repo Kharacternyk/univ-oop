@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="./library.xsl"?>
+<?xml-stylesheet
+    href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+?>
+<library>
+    <books>
+        <book>
+            <title>Математична логіка. Навчальний посібник</title>
+            <author>Шкільняк С.С.</author>
+            <tags>
+                <tag>Математична логіка</tag>
+                <tag>посібник</tag>
+            </tags>
+        </book>
+        <book>
+            <title>Математична логіка. Приклади і задачі</title>
+            <author>Шкільняк С.С.</author>
+            <tags>
+                <tag>Математична логіка</tag>
+                <tag>задачник</tag>
+            </tags>
+        </book>
+        <book>
+            <title>Об'єктно-орієнтоване програмування. Лабораторний практикум</title>
+            <author>Омельчук Л.Л.</author>
+            <tags>
+                <tag>ООП</tag>
+                <tag>посібник</tag>
+            </tags>
+        </book>
+    </books>
+    <readers>
+        <reader>
+            <name>Віннічук Н.Д.</name>
+            <faculty>ФКНК</faculty>
+            <position>Студент</position>
+        </reader>
+        <reader>
+            <name>Гринчак І.В.</name>
+            <faculty>Фізичний факультет</faculty>
+            <position>Студент</position>
+        </reader>
+        <reader>
+            <name>Шкільняк C.C.</name>
+            <faculty>ФКНК</faculty>
+            <position>Викладач</position>
+        </reader>
+    </readers>
+</library>
