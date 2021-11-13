@@ -6,6 +6,7 @@
 <library>
     <books>
         <book>
+            <id>b1</id>
             <title>Математична логіка. Навчальний посібник</title>
             <author>Шкільняк С.С.</author>
             <tags>
@@ -14,6 +15,7 @@
             </tags>
         </book>
         <book>
+            <id>b2</id>
             <title>Математична логіка. Приклади і задачі</title>
             <author>Шкільняк С.С.</author>
             <tags>
@@ -22,6 +24,7 @@
             </tags>
         </book>
         <book>
+            <id>b3</id>
             <title>Об'єктно-орієнтоване програмування. Лабораторний практикум</title>
             <author>Омельчук Л.Л.</author>
             <tags>
@@ -32,16 +35,19 @@
     </books>
     <readers>
         <reader>
+            <id>r1</id>
             <name>Віннічук Н.Д.</name>
             <faculty>ФКНК</faculty>
             <position>Студент</position>
         </reader>
         <reader>
+            <id>r2</id>
             <name>Гринчак І.В.</name>
             <faculty>Фізичний факультет</faculty>
             <position>Студент</position>
         </reader>
         <reader>
+            <id>r3</id>
             <name>Шкільняк C.C.</name>
             <faculty>ФКНК</faculty>
             <position>Викладач</position>
