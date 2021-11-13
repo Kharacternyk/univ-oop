@@ -1,5 +1,6 @@
 import {SearchStrategy} from "../src/SearchStrategy";
 import {SaxSearchStrategy} from "../src/SaxSearchStrategy";
+import {DomSearchStrategy} from "../src/DomSearchStrategy";
 import fs from "fs/promises";
 
 async function testSearchStrategy(strategy: SearchStrategy) {
@@ -13,3 +14,4 @@ async function testSearchStrategy(strategy: SearchStrategy) {
 }
 
 test("SAX search strategy", () => testSearchStrategy(new SaxSearchStrategy()));
+test("DOM search strategy", () => testSearchStrategy(new DomSearchStrategy()));

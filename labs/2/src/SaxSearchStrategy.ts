@@ -2,7 +2,7 @@ import {SearchStrategy} from "./SearchStrategy";
 import sax from "sax";
 
 export class SaxSearchStrategy implements SearchStrategy {
-    getNodeIds(xml: string, query: string) {
+    public getNodeIds(xml: string, query: string) {
         const parser = sax.parser(false, {lowercase: true});
         const result: Array<string> = [];
 
