@@ -1,5 +1,5 @@
 import {SearchStrategy} from "./SearchStrategy";
-import xmldom from "xmldom";
+import xmldom from "@xmldom/xmldom";
 
 export class DomSearchStrategy implements SearchStrategy {
     public getNodeIds(xml: string, query: string) {
