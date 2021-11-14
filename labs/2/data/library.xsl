@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <table class="ui celled table unstackable massive">
+        <table class="ui celled table unstackable large">
             <thead>
                 <tr>
                     <th scope="col" colspan="3">Книги</th>
@@ -58,7 +58,7 @@
                     <td><xsl:value-of select="author"/></td>
                     <td>
                         <xsl:for-each select="tags/tag">
-                            <div class="ui blue label massive">
+                            <div class="ui blue label large">
                                 <xsl:value-of select="."/>
                             </div>
                         </xsl:for-each>
@@ -66,7 +66,7 @@
                 </tr>
             </xsl:for-each>
         </table>
-        <table class="ui celled table unstackable massive">
+        <table class="ui celled table unstackable large">
             <thead>
                 <tr>
                     <th scope="col" colspan="3">Читачі</th>

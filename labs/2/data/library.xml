@@ -1,54 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="./library.xsl"?>
-<?xml-stylesheet
-    href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
-?>
 <library>
     <books>
         <book>
             <id>b1</id>
             <title>Математична логіка. Навчальний посібник</title>
-            <author>Шкільняк С.С.</author>
+            <author>С. С. Шкільняк </author>
             <tags>
                 <tag>Математична логіка</tag>
                 <tag>посібник</tag>
+                <tag>2 курс</tag>
             </tags>
         </book>
         <book>
             <id>b2</id>
             <title>Математична логіка. Приклади і задачі</title>
-            <author>Шкільняк С.С.</author>
+            <author>С. С. Шкільняк</author>
             <tags>
                 <tag>Математична логіка</tag>
                 <tag>задачник</tag>
+                <tag>2 курс</tag>
             </tags>
         </book>
         <book>
             <id>b3</id>
             <title>Об'єктно-орієнтоване програмування. Лабораторний практикум</title>
-            <author>Омельчук Л.Л.</author>
+            <author>Л. Л. Омельчук</author>
             <tags>
                 <tag>ООП</tag>
                 <tag>посібник</tag>
+                <tag>2 курс</tag>
+            </tags>
+        </book>
+        <book>
+            <id>b4</id>
+            <title>Дискретна математика</title>
+            <author>Р. М. Трохимчук</author>
+            <tags>
+                <tag>Дискретна математика</tag>
+                <tag>посібник</tag>
+                <tag>задачник</tag>
+                <tag>1 курс</tag>
+            </tags>
+        </book>
+        <book>
+            <id>b5</id>
+            <title>Вступ до математичного аналізу</title>
+            <author>
+                І. М. Александрович, А. В. Анікушин, О. К. Боярчук, О. І. Молодцов,
+                Д. А. Номіровський, Б. В. Рубльов, В. В. Семенов
+            </author>
+            <tags>
+                <tag>Математичний аналіз</tag>
+                <tag>задачник</tag>
+                <tag>1 курс</tag>
             </tags>
         </book>
     </books>
     <readers>
         <reader>
             <id>r1</id>
-            <name>Віннічук Н.Д.</name>
+            <name>Н. Д. Віннічук</name>
             <faculty>ФКНК</faculty>
             <position>Студент</position>
         </reader>
         <reader>
             <id>r2</id>
-            <name>Гринчак І.В.</name>
+            <name>І. В. Гринчак</name>
             <faculty>Фізичний факультет</faculty>
             <position>Студент</position>
         </reader>
         <reader>
             <id>r3</id>
-            <name>Шкільняк C.C.</name>
+            <name>С. С. Шкільняк</name>
+            <faculty>ФКНК</faculty>
+            <position>Викладач</position>
+        </reader>
+        <reader>
+            <id>r4</id>
+            <name>О. І. Молодцов</name>
+            <faculty>ФКНК</faculty>
+            <position>Викладач</position>
+        </reader>
+        <reader>
+            <id>r5</id>
+            <name>Б. В. Рубльов</name>
             <faculty>ФКНК</faculty>
             <position>Викладач</position>
         </reader>

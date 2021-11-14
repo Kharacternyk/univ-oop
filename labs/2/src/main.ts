@@ -31,6 +31,5 @@ app.whenReady().then(() => {
     });
     window.loadFile(path.join(app.getAppPath(), "data/library.xml"));
     window.setMenu(null);
-    window.webContents.openDevTools();
 });
 
