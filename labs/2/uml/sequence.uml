@@ -1,0 +1,50 @@
+@startuml
+
+actor "User" as user
+boundary "HTML/CSS/JS UI Layer" as ui
+control "Main Script (main.ts)" as main
+control "engine: SearchEngine" as engine
+control "strategy: LinqTraversalStrategy" as strategy
+control "interpreter: QueryInterpreter" as interpreter
+
+activate user
+activate ui
+
+user->ui : searches "мол"
+
+ui->main : messages "search" "мол" "LINQ" \
+\n"{regex: false, caseSensitive: false, wholeWord: false}"
+activate main
+
+main->strategy : new LinqTraversalStrategy()
+activate strategy
+deactivate strategy
+
+
+main->engine : new SearchEngine("library.xml", strategy, \
+\n"{regex: false, caseSensitive: false, wholeWord: false}")
+activate engine
+
+engine->interpreter : new LiteralQueryInterpreter()
+activate interpreter
+engine->interpreter : new CaseInsensitiveQueryInterpreterDecorator(interpreter)
+deactivate interpreter
+
+main->engine : getNodeIds("мол")
+engine->interpreter : getRegex("мол")
+activate interpreter
+interpreter->engine : /мол/i
+deactivate interpreter
+engine->strategy : getNodeIds("<library>…", /мол/i)
+activate strategy
+strategy->engine : ["b5", "r4"]
+deactivate strategy
+engine->main : ["b5", "r4"]
+destroy engine
+destroy strategy
+destroy interpreter
+main->ui : messages "search" ["b5", "r4"]
+deactivate main
+ui->user : hides all records except b5 and r4
+
+@enduml

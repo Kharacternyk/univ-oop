@@ -1,0 +1,29 @@
+@startuml
+
+class SearchEngine {
+    +Array<string> getNodeIds(string query)
+}
+
+interface QueryInterpreter {
+    RegExp getRegex(string query)
+}
+
+interface TraversalStrategy {
+    Array<string> getNodeIds(string xml, RegExp regex)
+}
+
+QueryInterpreter <|.right. RegexQueryInterpreter
+QueryInterpreter <|.left. LiteralQueryInterpreter
+QueryInterpreter <|.. CaseInsensitiveQueryInterpreterDecorator
+QueryInterpreter <|.. WholeWordQueryInterpreterDecorator
+QueryInterpreter --* CaseInsensitiveQueryInterpreterDecorator
+QueryInterpreter --* WholeWordQueryInterpreterDecorator
+
+TraversalStrategy <|.. LinqTraversalStrategy
+TraversalStrategy <|.. SaxTraversalStrategy
+TraversalStrategy <|.. DomTraversalStrategy
+
+SearchEngine *-- QueryInterpreter
+SearchEngine *-- TraversalStrategy
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+
+left to right direction
+
+actor User
+
+package "Search Application" {
+    usecase "Enter query" as u1
+    usecase "Toggle search options" as u2
+    usecase "Choose traversal strategy" as u3
+    usecase "See found records" as u4
+}
+
+User-->u1
+User-->u2
+User-->u3
+User-->u4
+
+@enduml
