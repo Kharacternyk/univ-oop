@@ -1,9 +1,24 @@
 "use strict";
 
-document.getElementById("search").addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-        ipc.requestSearch(event.target.value);
+function requestSearch() {
+    const query = document.getElementById("query").value;
+    const strategy = document.getElementById("strategy").value;
+    const searchOptions = {
+        regex: document.getElementById("regex").checked,
+        caseSensitive: document.getElementById("caseSensitive").checked,
+        wholeWord: document.getElementById("wholeWord").checked,
     }
+    ipc.requestSearch(query, strategy, searchOptions);
+}
+
+document.getElementById("query").addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+        requestSearch();
+    }
+});
+
+document.getElementById("search").addEventListener("click", event => {
+    requestSearch();
 });
 
 ipc.handleSearch((event, rowIds) => {

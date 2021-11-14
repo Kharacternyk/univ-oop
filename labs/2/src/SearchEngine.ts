@@ -1,11 +1,11 @@
 import {TraversalStrategy} from "./TraversalStrategy";
-import {QueryInterpreter} from "../src/QueryInterpreter";
-import {RegexQueryInterpreter} from "../src/RegexQueryInterpreter";
-import {LiteralQueryInterpreter} from "../src/LiteralQueryInterpreter";
-import {WholeWordQueryInterpreterDecorator} from "../src/WholeWordQueryInterpreterDecorator";
+import {QueryInterpreter} from "./QueryInterpreter";
+import {RegexQueryInterpreter} from "./RegexQueryInterpreter";
+import {LiteralQueryInterpreter} from "./LiteralQueryInterpreter";
+import {WholeWordQueryInterpreterDecorator} from "./WholeWordQueryInterpreterDecorator";
 import {
     CaseInsensitiveQueryInterpreterDecorator
-} from "../src/CaseInsensitiveQueryInterpreterDecorator";
+} from "./CaseInsensitiveQueryInterpreterDecorator";
 
 import fs from "fs";
 

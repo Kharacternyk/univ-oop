@@ -1,14 +1,25 @@
 import { LinqTraversalStrategy } from "./LinqTraversalStrategy";
+import { DomTraversalStrategy } from "./DomTraversalStrategy";
+import { SaxTraversalStrategy } from "./SaxTraversalStrategy";
+import { SearchEngine } from "./SearchEngine";
 
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
-import fs from "fs";
 import path from "path";
 
-const strategy = new LinqTraversalStrategy();
-const xml = fs.readFileSync("data/library.xml", {encoding: "utf-8"});
+ipcMain.on("search", (event, query, strategyType, searchOptions) => {
+    let strategy;
+    switch (strategyType) {
+        case "LINQ": strategy = new LinqTraversalStrategy(); break;
+        case "DOM": strategy = new DomTraversalStrategy(); break;
+        case "SAX": strategy = new SaxTraversalStrategy(); break;
+    }
+    const engine = new SearchEngine("data/library.xml", strategy, searchOptions);
 
-ipcMain.on("search", (event, query) => {
-    event.sender.send("search", strategy.getNodeIds(xml, query));
+    try {
+        event.sender.send("search", engine.getNodeIds(query));
+    } catch (error) {
+        dialog.showErrorBox("Error", error.message);
+    }
 });
 
 app.whenReady().then(() => {
