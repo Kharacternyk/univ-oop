@@ -1,8 +1,8 @@
-import {SearchStrategy} from "./SearchStrategy";
+import {TraversalStrategy} from "./TraversalStrategy";
 import sax from "sax";
 
-export class SaxSearchStrategy implements SearchStrategy {
-    public getNodeIds(xml: string, query: string) {
+export class SaxTraversalStrategy implements TraversalStrategy {
+    public getNodeIds(xml: string, regex: RegExp) {
         const parser = sax.parser(false, {lowercase: true});
         const result: Array<string> = [];
 
@@ -14,7 +14,7 @@ export class SaxSearchStrategy implements SearchStrategy {
         parser.ontext = text => {
             if (currentTag === "id") {
                 currentNodeId = text;
-            } else if (text.includes(query)) {
+            } else if (regex.test(text)) {
                 result.push(currentNodeId);
             }
         }

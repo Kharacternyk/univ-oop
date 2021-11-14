@@ -1,17 +1,17 @@
-import {SearchStrategy} from "./SearchStrategy";
+import {TraversalStrategy} from "./TraversalStrategy";
 import xmldom from "@xmldom/xmldom";
 
-export class DomSearchStrategy implements SearchStrategy {
-    public getNodeIds(xml: string, query: string) {
+export class DomTraversalStrategy implements TraversalStrategy {
+    public getNodeIds(xml: string, regex: RegExp) {
         const parser = new xmldom.DOMParser();
         const dom = parser.parseFromString(xml);
 
-        return this.search(dom.documentElement, query);
+        return this.search(dom.documentElement, regex);
     }
 
-    private search(node: any, query: string) {
+    private search(node: any, regex: RegExp) {
         if (node.nodeValue) {
-            if (node.nodeValue.includes(query)) {
+            if (regex.test(node.nodeValue)) {
                 return [this.getAncestorId(node)];
             } else {
                 return [];
@@ -19,7 +19,7 @@ export class DomSearchStrategy implements SearchStrategy {
         } else if (node.childNodes.length) {
             let result: Array<string> = [];
             for (const child of Array.from(node.childNodes)) {
-                result = result.concat(this.search(child, query));
+                result = result.concat(this.search(child, regex));
             }
             return result;
         }

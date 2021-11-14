@@ -1,10 +1,10 @@
-import { LinqSearchStrategy } from "./LinqSearchStrategy";
+import { LinqTraversalStrategy } from "./LinqTraversalStrategy";
 
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import fs from "fs";
 import path from "path";
 
-const strategy = new LinqSearchStrategy();
+const strategy = new LinqTraversalStrategy();
 const xml = fs.readFileSync("data/library.xml", {encoding: "utf-8"});
 
 ipcMain.on("search", (event, query) => {
