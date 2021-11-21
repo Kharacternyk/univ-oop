@@ -15,6 +15,9 @@
                 <button id="search" class="ui primary button">Пошук</button>
             </div>
             <div class="ui item">
+                <button id="save" class="ui button">Зберегти</button>
+            </div>
+            <div class="ui item">
                 <select id="strategy">
                     <option value="LINQ">LINQ</option>
                     <option value="SAX">SAX</option>

@@ -21,6 +21,10 @@ document.getElementById("search").addEventListener("click", event => {
     requestSearch();
 });
 
+document.getElementById("save").addEventListener("click", event => {
+    ipc.requestSave();
+});
+
 ipc.handleSearch((event, rowIds) => {
     for (const row of document.querySelectorAll("tbody tr")) {
         row.style.display = "none";

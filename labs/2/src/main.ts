@@ -4,7 +4,10 @@ import { SaxTraversalStrategy } from "./SaxTraversalStrategy";
 import { SearchEngine } from "./SearchEngine";
 
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
+import { writeFileSync } from "fs";
 import path from "path";
+
+let window: BrowserWindow;
 
 ipcMain.on("search", (event, query, strategyType, searchOptions) => {
     let strategy;
@@ -22,8 +25,15 @@ ipcMain.on("search", (event, query, strategyType, searchOptions) => {
     }
 });
 
+ipcMain.on("save", () => {
+    const location = dialog.showSaveDialogSync({});
+    if (location) {
+        window.webContents.savePage(location, "HTMLComplete");
+    }
+});
+
 app.whenReady().then(() => {
-    const window = new BrowserWindow({
+    window = new BrowserWindow({
         webPreferences: {
             contextIsolation: true,
             preload: path.join(app.getAppPath(), "preload.js")
