@@ -7,10 +7,13 @@ export const App = () => {
     const [firstPanelFocused, setFirstPanelFocused] = useState(true);
 
     useInput((input, key) => {
-        if (key.leftArrow) {
-            setFirstPanelFocused(true);
-        } else if (key.rightArrow) {
-            setFirstPanelFocused(false);
+        switch (input) {
+            case "h":
+                setFirstPanelFocused(true);
+                break;
+            case "l":
+                setFirstPanelFocused(false);
+                break;
         }
     });
 
