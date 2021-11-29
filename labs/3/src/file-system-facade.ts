@@ -2,16 +2,28 @@ import {
     readdir
 } from "fs/promises";
 
+import {
+    resolve
+} from "path";
+
 export interface File {
     name: string;
     isDirectory: boolean;
 }
 
-export const changeDirectory = (directory: string) => {
+export function resolvePath(directory: string) {
+    return resolve(directory);
+}
+
+export function getCurrentDirectory() {
+    return process.cwd();
+}
+
+export function changeDirectory (directory: string) {
     process.chdir(directory);
 };
 
-export const listDirectory = async (path: string): Promise<Array<File>> => {
+export async function listDirectory(path: string): Promise<Array<File>> {
     const entries = await readdir(path, {withFileTypes: true});
     const specialEntries = [
         {

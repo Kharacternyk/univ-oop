@@ -1,18 +1,27 @@
 import React, {useEffect, useState} from "react";
 import {Box, Newline, Text, useInput} from "ink";
-import {listDirectory, changeDirectory, File} from "../file-system-facade";
+import {
+    resolvePath,
+    getCurrentDirectory,
+    listDirectory,
+    changeDirectory,
+    File
+} from "../file-system-facade";
+import {Entry} from "./entry";
 
 interface Props {
     focused: boolean,
+    onEntrySelected: (entry: File) => void;
 }
 
-export const Panel = ({focused}: Props) => {
-    const [directory, setDirectory] = useState(".");
+export const Panel = ({focused, onEntrySelected}: Props) => {
+    const [directory, setDirectory] = useState(getCurrentDirectory());
     const [entries, setEntries] = useState<Array<File>>([]);
-    const [focusedIndex, setFocusedIndex] = useState(0);
+    const [focusedIndex, setFocusedIndex] = useState<number>(0);
 
     useEffect(() => {
         listDirectory(directory).then(entries => {
+            setFocusedIndex(0);
             setEntries(entries);
             changeDirectory(directory);
         });
@@ -20,7 +29,7 @@ export const Panel = ({focused}: Props) => {
 
     useInput((input, key) => {
         if (!focused) {
-            return
+            return;
         }
 
         switch (input) {
@@ -29,38 +38,36 @@ export const Panel = ({focused}: Props) => {
                 break;
             case "j":
                 setFocusedIndex(
-                    focusedIndex < entries.length - 1 ? focusedIndex + 1 : entries.length
+                    focusedIndex < entries.length - 1 ? focusedIndex + 1 : entries.length - 1
                 );
                 break;
             case " ":
-                setDirectory(entries[focusedIndex].name);
+                const entry = entries[focusedIndex];
+                if (entry.isDirectory) {
+                    setDirectory(resolvePath(entries[focusedIndex].name));
+                } else {
+                    onEntrySelected(entry);
+                }
                 break;
         }
     });
 
-    const renderedEntries = entries.map((entry, index) => {
-        return <>
-            <Text
-                color={entry.isDirectory ? "blue" : undefined}
-                inverse={index === focusedIndex}
-            >
-                {entry.name}
-            </Text>
-            <Newline />
-        </>
-    });
+    const renderedEntries = entries.map((entry, index) => <>
+        <Entry focused={index === focusedIndex} file={entry} />
+    </>);
 
     return <>
-        <Box
-            borderColor={focused ? "red" : undefined}
-            width="50px"
-            padding={1}
-            margin={1}
-            borderStyle="round"
-        >
-            <Text>
-                {renderedEntries}
-            </Text>
+        <Box flexDirection="column" flexGrow={1} flexBasis={0} margin={1}>
+            <Text bold color="green" wrap="truncate-middle">{directory}</Text>
+            <Box
+                borderColor={focused ? "red" : undefined}
+                padding={1}
+                borderStyle="bold"
+            >
+                <Text>
+                    {renderedEntries}
+                </Text>
+            </Box>
         </Box>
     </>;
 };
