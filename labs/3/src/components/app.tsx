@@ -7,6 +7,16 @@ import {File} from "../file";
 export const App = () => {
     const [firstPanelFocused, setFirstPanelFocused] = useState(true);
     const [selectedEntry, setSelectedEntry] = useState<File|null>(null);
+    const [fileSystemGeneration, setFileSystemGeneration] = useState(0);
+
+    const clearEntry = () => {
+        setSelectedEntry(null);
+    };
+
+    const incrementGeneration = () => {
+        clearEntry();
+        setFileSystemGeneration(fileSystemGeneration + 1);
+    };
 
     useInput((input, key) => {
         switch (input) {
@@ -16,7 +26,7 @@ export const App = () => {
             case "l":
                 setFirstPanelFocused(false);
                 break;
-            case "d":
+            case "u":
                 setSelectedEntry(null);
                 break;
         }
@@ -25,13 +35,25 @@ export const App = () => {
     return (
         <FullScreen>
             <Box justifyContent="center">
-                <Text bold color="redBright">
-                    {selectedEntry ? "[ "+selectedEntry.getName()+" ]" : null}
+                <Text bold color="yellowBright">
+                    {selectedEntry?.getPath()}
                 </Text>
             </Box>
             <Box>
-                <Panel focused={firstPanelFocused} onEntrySelected={setSelectedEntry}/>
-                <Panel focused={!firstPanelFocused} onEntrySelected={setSelectedEntry}/>
+                <Panel
+                    focused={firstPanelFocused}
+                    selectedEntry={selectedEntry}
+                    onEntrySelected={setSelectedEntry}
+                    onFileSystemChanged={incrementGeneration}
+                    fileSystemGeneration={fileSystemGeneration}
+                />
+                <Panel
+                    focused={!firstPanelFocused}
+                    selectedEntry={selectedEntry}
+                    onEntrySelected={setSelectedEntry}
+                    onFileSystemChanged={incrementGeneration}
+                    fileSystemGeneration={fileSystemGeneration}
+                />
             </Box>
         </FullScreen>
     );

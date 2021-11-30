@@ -6,20 +6,27 @@ import {Entry} from "./entry";
 
 interface Props {
     focused: boolean,
-    onEntrySelected: (entry: File) => void;
+    selectedEntry: File | null,
+    onEntrySelected: (entry: File) => void,
+    onFileSystemChanged: () => void,
+    fileSystemGeneration: number,
 }
 
-export const Panel = ({focused, onEntrySelected}: Props) => {
-    const [directory, setDirectory] = useState<Directory>(Directory.getCurrent());
+export const Panel = ({
+    focused,
+    selectedEntry,
+    onEntrySelected,
+    onFileSystemChanged,
+    fileSystemGeneration,
+}: Props) => {
+    const [directory, setDirectory] = useState(Directory.getCurrent());
     const [entries, setEntries] = useState<Array<File>>([]);
-    const [focusedIndex, setFocusedIndex] = useState<number>(0);
+    const [focusedIndex, setFocusedIndex] = useState(0);
 
     useEffect(() => {
-        directory.list().then(entries => {
-            setFocusedIndex(0);
-            setEntries(entries);
-        });
-    }, [directory]);
+        directory.list().then(setEntries);
+        setFocusedIndex(0);
+    }, [directory, fileSystemGeneration]);
 
     useInput((input, key) => {
         if (!focused) {
@@ -38,12 +45,23 @@ export const Panel = ({focused, onEntrySelected}: Props) => {
             case "b":
                 setDirectory(directory.getParent());
                 break;
+            case "c":
+                if (selectedEntry) {
+                    directory.copyHere(selectedEntry)
+                    .then(onFileSystemChanged)
+                    .catch(() => null);
+                }
+                break;
+            case "d":
+                selectedEntry?.remove().then(onFileSystemChanged).catch(() => null);
+                break;
             case " ":
+                onEntrySelected(entries[focusedIndex]);
+                break;
+            case "g":
                 const entry = entries[focusedIndex];
                 if (entry instanceof Directory) {
                     setDirectory(entry);
-                } else {
-                    onEntrySelected(entry);
                 }
                 break;
         }
@@ -60,6 +78,7 @@ export const Panel = ({focused, onEntrySelected}: Props) => {
                 borderStyle={focused ? "double" : "single"}
                 borderColor={focused ? "cyan" : undefined}
                 padding={1}
+                flexGrow={1}
             >
                 <Text>
                     {renderedEntries}

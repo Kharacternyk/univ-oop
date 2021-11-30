@@ -1,7 +1,8 @@
 import {resolve, basename} from "path";
+import {rm} from "fs/promises";
 
 export class File {
-    protected readonly path: string;
+    private readonly path: string;
 
     public constructor(...paths: Array<string>) {
         this.path = resolve(...paths);
@@ -12,6 +13,10 @@ export class File {
     }
 
     public getName(): string {
-        return basename(this.path);
+        return basename(this.getPath());
+    }
+
+    public remove(): Promise<void> {
+        return rm(this.getPath());
     }
 }
