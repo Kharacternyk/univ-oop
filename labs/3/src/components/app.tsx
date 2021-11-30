@@ -32,6 +32,9 @@ export const App = () => {
         }
     });
 
+    const hintSelected = "[c]: copy [m]: move [d]: delete [u]: unselect file";
+    const hintUnselected = "[Space]: select file [g]: go to directory [b]: go back";
+
     return (
         <FullScreen>
             <Box justifyContent="center">
@@ -54,6 +57,11 @@ export const App = () => {
                     onFileSystemChanged={incrementGeneration}
                     fileSystemGeneration={fileSystemGeneration}
                 />
+            </Box>
+            <Box justifyContent="center">
+                <Text color="yellowBright">
+                    {selectedEntry ? hintSelected : hintUnselected}
+                </Text>
             </Box>
         </FullScreen>
     );
