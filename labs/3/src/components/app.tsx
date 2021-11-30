@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useInput, Text, Box} from "ink";
 import {FullScreen} from "./full-screen";
 import {Panel} from "./panel";
-import {File} from "../file-system-facade";
+import {File} from "../file";
 
 export const App = () => {
     const [firstPanelFocused, setFirstPanelFocused] = useState(true);
@@ -22,11 +22,11 @@ export const App = () => {
         }
     });
 
-    return <>
+    return (
         <FullScreen>
             <Box justifyContent="center">
                 <Text bold color="redBright">
-                    {selectedEntry ? "[ "+selectedEntry.name+" ]" : null}
+                    {selectedEntry ? "[ "+selectedEntry.getName()+" ]" : null}
                 </Text>
             </Box>
             <Box>
@@ -34,5 +34,5 @@ export const App = () => {
                 <Panel focused={!firstPanelFocused} onEntrySelected={setSelectedEntry}/>
             </Box>
         </FullScreen>
-    </>;
+    );
 };

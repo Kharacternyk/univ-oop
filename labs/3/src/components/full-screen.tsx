@@ -27,9 +27,9 @@ export const FullScreen = ({children}: Props) => {
         };
     }, []);
 
-    return <>
+    return (
         <Box flexDirection="column" width={size.columns} height={size.rows} padding={1}>
             {children}
         </Box>
-    </>;
+    );
 };

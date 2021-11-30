@@ -1,12 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Box, Newline, Text, useInput} from "ink";
-import {
-    resolvePath,
-    getCurrentDirectory,
-    listDirectory,
-    changeDirectory,
-    File
-} from "../file-system-facade";
+import {File} from "../file";
+import {Directory} from "../directory";
 import {Entry} from "./entry";
 
 interface Props {
@@ -15,15 +10,14 @@ interface Props {
 }
 
 export const Panel = ({focused, onEntrySelected}: Props) => {
-    const [directory, setDirectory] = useState(getCurrentDirectory());
+    const [directory, setDirectory] = useState<Directory>(Directory.getCurrent());
     const [entries, setEntries] = useState<Array<File>>([]);
     const [focusedIndex, setFocusedIndex] = useState<number>(0);
 
     useEffect(() => {
-        listDirectory(directory).then(entries => {
+        directory.list().then(entries => {
             setFocusedIndex(0);
             setEntries(entries);
-            changeDirectory(directory);
         });
     }, [directory]);
 
@@ -41,10 +35,13 @@ export const Panel = ({focused, onEntrySelected}: Props) => {
                     focusedIndex < entries.length - 1 ? focusedIndex + 1 : entries.length - 1
                 );
                 break;
+            case "b":
+                setDirectory(directory.getParent());
+                break;
             case " ":
                 const entry = entries[focusedIndex];
-                if (entry.isDirectory) {
-                    setDirectory(resolvePath(entries[focusedIndex].name));
+                if (entry instanceof Directory) {
+                    setDirectory(entry);
                 } else {
                     onEntrySelected(entry);
                 }
@@ -52,13 +49,13 @@ export const Panel = ({focused, onEntrySelected}: Props) => {
         }
     });
 
-    const renderedEntries = entries.map((entry, index) => <>
-        <Entry focused={index === focusedIndex} file={entry} />
-    </>);
+    const renderedEntries = entries.map((entry, index) =>
+        <Entry key={entry.getPath()} focused={index === focusedIndex} file={entry} />
+    );
 
-    return <>
+    return (
         <Box flexDirection="column" flexGrow={1} flexBasis={0} margin={1}>
-            <Text bold color="green" wrap="truncate-middle">{directory}</Text>
+            <Text bold color="green" wrap="truncate-middle">{directory.getPath()}</Text>
             <Box
                 borderColor={focused ? "red" : undefined}
                 padding={1}
@@ -69,5 +66,5 @@ export const Panel = ({focused, onEntrySelected}: Props) => {
                 </Text>
             </Box>
         </Box>
-    </>;
+    );
 };
