@@ -1,5 +1,5 @@
 import {resolve} from "path";
-import {readdir, copyFile, rmdir} from "fs/promises";
+import {readdir, copyFile, rmdir, rename} from "fs/promises";
 import {File} from "./file";
 
 export class Directory extends File {
@@ -26,6 +26,10 @@ export class Directory extends File {
 
     public copyHere(file: File): Promise<void> {
         return copyFile(file.getPath(), resolve(this.getPath(), file.getName()));
+    }
+
+    public moveHere(file: File): Promise<void> {
+        return rename(file.getPath(), resolve(this.getPath(), file.getName()));
     }
 
     public remove(): Promise<void> {

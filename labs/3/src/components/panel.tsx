@@ -52,6 +52,13 @@ export const Panel = ({
                     .catch(() => null);
                 }
                 break;
+            case "m":
+                if (selectedEntry) {
+                    directory.moveHere(selectedEntry)
+                    .then(onFileSystemChanged)
+                    .catch(() => null);
+                }
+                break;
             case "d":
                 selectedEntry?.remove().then(onFileSystemChanged).catch(() => null);
                 break;
