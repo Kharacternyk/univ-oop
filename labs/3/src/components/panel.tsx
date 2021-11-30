@@ -57,9 +57,9 @@ export const Panel = ({focused, onEntrySelected}: Props) => {
         <Box flexDirection="column" flexGrow={1} flexBasis={0} margin={1}>
             <Text bold color="green" wrap="truncate-middle">{directory.getPath()}</Text>
             <Box
-                borderColor={focused ? "red" : undefined}
+                borderStyle={focused ? "double" : "single"}
+                borderColor={focused ? "cyan" : undefined}
                 padding={1}
-                borderStyle="bold"
             >
                 <Text>
                     {renderedEntries}
