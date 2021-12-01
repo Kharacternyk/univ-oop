@@ -22,6 +22,6 @@ export class File {
     }
 
     public edit() {
-        exec(`konsole -e "$EDITOR" "${this.getPath()}"`);
+        exec(`konsole -e "$EDITOR" -u NONE "${this.getPath()}"`);
     }
 }
