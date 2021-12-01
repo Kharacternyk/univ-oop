@@ -1,5 +1,6 @@
 import {resolve, basename} from "path";
 import {rm} from "fs/promises";
+import {exec} from "child_process";
 
 export class File {
     private readonly path: string;
@@ -18,5 +19,9 @@ export class File {
 
     public remove(): Promise<void> {
         return rm(this.getPath());
+    }
+
+    public edit() {
+        exec(`konsole -e "$EDITOR" "${this.getPath()}"`);
     }
 }

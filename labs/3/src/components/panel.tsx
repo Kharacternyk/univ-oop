@@ -29,9 +29,7 @@ export const Panel = ({
     }, [directory, fileSystemGeneration]);
 
     useInput((input, key) => {
-        if (!focused) {
-            return;
-        }
+        const entry = entries[focusedIndex];
 
         switch (input) {
             case "k":
@@ -63,16 +61,22 @@ export const Panel = ({
                 selectedEntry?.remove().then(onFileSystemChanged).catch(() => null);
                 break;
             case " ":
-                onEntrySelected(entries[focusedIndex]);
+                if (entry) {
+                    onEntrySelected(entry);
+                }
+                break;
+            case "e":
+                if (entry) {
+                    entry.edit();
+                }
                 break;
             case "g":
-                const entry = entries[focusedIndex];
                 if (entry instanceof Directory) {
                     setDirectory(entry);
                 }
                 break;
         }
-    });
+    }, {isActive: focused});
 
     const renderedEntries = entries.map((entry, index) =>
         <Entry key={entry.getPath()} focused={index === focusedIndex} file={entry} />
