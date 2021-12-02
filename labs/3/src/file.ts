@@ -1,5 +1,5 @@
 import {resolve, basename} from "path";
-import {rm} from "fs/promises";
+import {rm, readFile} from "fs/promises";
 import {exec} from "child_process";
 
 export class File {
@@ -15,6 +15,10 @@ export class File {
 
     public getName(): string {
         return basename(this.getPath());
+    }
+
+    public getContent(): Promise<string> {
+        return readFile(this.getPath(), {encoding: "utf-8"});
     }
 
     public remove(): Promise<void> {

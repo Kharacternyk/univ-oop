@@ -2,7 +2,10 @@ import React, {useState} from "react";
 import {useInput, Text, Box} from "ink";
 import {FullScreen} from "./full-screen";
 import {Panel} from "./panel";
+import {Viewer} from "./viewer";
 import {File} from "../file";
+import {FileContentViewer} from "../file-content-viewer";
+import {FileWordCounter} from "../file-word-counter";
 
 export const App = () => {
     const [firstPanelFocused, setFirstPanelFocused] = useState(true);
@@ -17,6 +20,9 @@ export const App = () => {
         clearEntry();
         setFileSystemGeneration(fileSystemGeneration + 1);
     };
+
+    const fileContentViewer = new FileContentViewer();
+    const fileWordCounter = new FileWordCounter();
 
     useInput((input, key) => {
         switch (input) {
@@ -41,6 +47,10 @@ export const App = () => {
                 <Text bold color="yellowBright">
                     {selectedEntry?.getPath()}
                 </Text>
+            </Box>
+            <Box>
+                <Viewer file={selectedEntry} fileViewer={fileContentViewer} />
+                <Viewer file={selectedEntry} fileViewer={fileWordCounter} />
             </Box>
             <Box>
                 <Panel
