@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Box, Newline, Text, useInput} from "ink";
 import {File} from "../file";
 import {FileEditor} from "../file-editor";
+import {FileTruncator} from "../file-truncator";
 import {Directory} from "../directory";
 import {Entry} from "./entry";
 
@@ -69,7 +70,15 @@ export const Panel = ({
             case "e":
                 if (entry) {
                     const editor = new FileEditor();
-                    editor.execute(entry);
+                    editor.execute(entry).catch(() => null);
+                }
+                break;
+            case "y":
+                if (selectedEntry) {
+                    directory.copyHere(selectedEntry)
+                    .then(file => new FileTruncator().execute(file))
+                    .then(onFileSystemChanged)
+                    .catch(() => null);
                 }
                 break;
             case "g":

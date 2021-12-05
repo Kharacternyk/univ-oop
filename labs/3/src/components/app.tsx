@@ -38,7 +38,9 @@ export const App = () => {
         }
     });
 
-    const hintSelected = "[c]: copy [m]: move [d]: delete [u]: unselect file";
+    const hintSelected =
+        "[c]: copy [y]: copy unique lines " +
+        "[m]: move [d]: delete [u]: unselect file";
     const hintUnselected = "[Space]: select file [g]: go to directory [b]: go back";
 
     return (

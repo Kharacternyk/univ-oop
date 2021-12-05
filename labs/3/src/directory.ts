@@ -7,10 +7,6 @@ export class Directory extends File {
         return new Directory(process.cwd());
     }
 
-    public getParent(): Directory {
-        return new Directory(this.getPath(), "..");
-    }
-
     public async list(): Promise<Array<File>> {
         const children = await readdir(this.getPath(), {withFileTypes: true});
         const entries = children.map(entry => {
@@ -24,12 +20,16 @@ export class Directory extends File {
         return entries;
     }
 
-    public copyHere(file: File): Promise<void> {
-        return copyFile(file.getPath(), resolve(this.getPath(), file.getName()));
+    public async copyHere(file: File): Promise<File> {
+        const path = resolve(this.getPath(), file.getName());
+        await copyFile(file.getPath(), path);
+        return new File(path);
     }
 
-    public moveHere(file: File): Promise<void> {
-        return rename(file.getPath(), resolve(this.getPath(), file.getName()));
+    public async moveHere(file: File): Promise<File> {
+        const path = resolve(this.getPath(), file.getName());
+        await rename(file.getPath(), path);
+        return new File(path);
     }
 
     public remove(): Promise<void> {
