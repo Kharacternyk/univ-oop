@@ -1,7 +1,5 @@
-import {exec} from "child_process";
 import {FileAction} from "./file-action";
 import {File} from "./file";
-import {Directory} from "./directory";
 
 export class FileTruncator implements FileAction {
     public async execute(file: File): Promise<void> {

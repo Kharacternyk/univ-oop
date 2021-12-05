@@ -10,15 +10,20 @@ import {FileWordCounter} from "../file-word-counter";
 export const App = () => {
     const [firstPanelFocused, setFirstPanelFocused] = useState(true);
     const [selectedEntry, setSelectedEntry] = useState<File|null>(null);
+    const [selectedEntryGeneration, setSelectedEntryGeneration] = useState(0);
     const [fileSystemGeneration, setFileSystemGeneration] = useState(0);
 
     const clearEntry = () => {
         setSelectedEntry(null);
     };
 
-    const incrementGeneration = () => {
+    const incrementFileSystemGeneration = () => {
         clearEntry();
         setFileSystemGeneration(fileSystemGeneration + 1);
+    };
+
+    const incrementSelectedEntryGeneration = () => {
+        setSelectedEntryGeneration(selectedEntryGeneration + 1);
     };
 
     const fileContentViewer = new FileContentViewer();
@@ -40,7 +45,8 @@ export const App = () => {
 
     const hintSelected =
         "[c]: copy [y]: copy unique lines " +
-        "[m]: move [d]: delete [u]: unselect file";
+        "[m]: move [d]: delete [u]: unselect file " +
+        "[e]: edit [t]: clean HTML tags";
     const hintUnselected = "[Space]: select file [g]: go to directory [b]: go back";
 
     return (
@@ -51,22 +57,32 @@ export const App = () => {
                 </Text>
             </Box>
             <Box>
-                <Viewer file={selectedEntry} fileViewer={fileContentViewer} />
-                <Viewer file={selectedEntry} fileViewer={fileWordCounter} />
+                <Viewer
+                    file={selectedEntry}
+                    fileViewer={fileContentViewer}
+                    fileGeneration={selectedEntryGeneration}
+                />
+                <Viewer
+                    file={selectedEntry}
+                    fileViewer={fileWordCounter}
+                    fileGeneration={selectedEntryGeneration}
+                />
             </Box>
             <Box>
                 <Panel
                     focused={firstPanelFocused}
                     selectedEntry={selectedEntry}
                     onEntrySelected={setSelectedEntry}
-                    onFileSystemChanged={incrementGeneration}
+                    onSelectedEntryChanged={incrementSelectedEntryGeneration}
+                    onFileSystemChanged={incrementFileSystemGeneration}
                     fileSystemGeneration={fileSystemGeneration}
                 />
                 <Panel
                     focused={!firstPanelFocused}
                     selectedEntry={selectedEntry}
                     onEntrySelected={setSelectedEntry}
-                    onFileSystemChanged={incrementGeneration}
+                    onSelectedEntryChanged={incrementSelectedEntryGeneration}
+                    onFileSystemChanged={incrementFileSystemGeneration}
                     fileSystemGeneration={fileSystemGeneration}
                 />
             </Box>

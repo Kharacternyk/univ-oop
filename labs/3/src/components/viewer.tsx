@@ -6,9 +6,10 @@ import {FileViewer} from "../file-viewer";
 interface Props {
     file: File | null,
     fileViewer: FileViewer,
+    fileGeneration: number,
 }
 
-export const Viewer = ({file, fileViewer}: Props) => {
+export const Viewer = ({file, fileViewer, fileGeneration}: Props) => {
     const [lines, setLines] = useState<Array<string>>([]);
 
     useEffect(() => {
@@ -17,7 +18,7 @@ export const Viewer = ({file, fileViewer}: Props) => {
         } else {
             setLines([]);
         }
-    }, [file, fileViewer]);
+    }, [file, fileViewer, fileGeneration]);
 
     return lines.length ? (
         <Box margin={1} borderStyle="single" flexBasis={0} flexGrow={1}>

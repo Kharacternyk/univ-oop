@@ -3,6 +3,7 @@ import {Box, Newline, Text, useInput} from "ink";
 import {File} from "../file";
 import {FileEditor} from "../file-editor";
 import {FileTruncator} from "../file-truncator";
+import {FileTagCleaner} from "../file-tag-cleaner";
 import {Directory} from "../directory";
 import {Entry} from "./entry";
 
@@ -10,6 +11,7 @@ interface Props {
     focused: boolean,
     selectedEntry: File | null,
     onEntrySelected: (entry: File) => void,
+    onSelectedEntryChanged: () => void,
     onFileSystemChanged: () => void,
     fileSystemGeneration: number,
 }
@@ -18,6 +20,7 @@ export const Panel = ({
     focused,
     selectedEntry,
     onEntrySelected,
+    onSelectedEntryChanged,
     onFileSystemChanged,
     fileSystemGeneration,
 }: Props) => {
@@ -68,9 +71,11 @@ export const Panel = ({
                 }
                 break;
             case "e":
-                if (entry) {
+                if (selectedEntry) {
                     const editor = new FileEditor();
-                    editor.execute(entry).catch(() => null);
+                    editor.execute(selectedEntry)
+                    .then(onFileSystemChanged)
+                    .catch(() => null);
                 }
                 break;
             case "y":
@@ -78,6 +83,13 @@ export const Panel = ({
                     directory.copyHere(selectedEntry)
                     .then(file => new FileTruncator().execute(file))
                     .then(onFileSystemChanged)
+                    .catch(() => null);
+                }
+                break;
+            case "t":
+                if (selectedEntry) {
+                    new FileTagCleaner().execute(selectedEntry)
+                    .then(onSelectedEntryChanged)
                     .catch(() => null);
                 }
                 break;
