@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Box, Newline, Text, useInput} from "ink";
 import {File} from "../file";
+import {FileEditor} from "../file-editor";
 import {Directory} from "../directory";
 import {Entry} from "./entry";
 
@@ -67,7 +68,8 @@ export const Panel = ({
                 break;
             case "e":
                 if (entry) {
-                    entry.edit();
+                    const editor = new FileEditor();
+                    editor.execute(entry);
                 }
                 break;
             case "g":
