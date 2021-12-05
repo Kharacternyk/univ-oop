@@ -58,11 +58,13 @@ export const App = () => {
             </Box>
             <Box>
                 <Viewer
+                    title="Preview"
                     file={selectedEntry}
                     fileViewer={fileContentViewer}
                     fileGeneration={selectedEntryGeneration}
                 />
                 <Viewer
+                    title="Word Count"
                     file={selectedEntry}
                     fileViewer={fileWordCounter}
                     fileGeneration={selectedEntryGeneration}

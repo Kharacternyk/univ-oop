@@ -29,7 +29,7 @@ export const Panel = ({
     const [focusedIndex, setFocusedIndex] = useState(0);
 
     useEffect(() => {
-        directory.list().then(entries => setEntries(entries.slice(0, 20)));
+        directory.list().then(entries => setEntries(entries.slice(0, 12)));
         setFocusedIndex(0);
     }, [directory, fileSystemGeneration]);
 
@@ -111,7 +111,6 @@ export const Panel = ({
             <Box
                 borderStyle={focused ? "double" : "single"}
                 borderColor={focused ? "cyan" : undefined}
-                flexGrow={1}
             >
                 <Text>
                     {renderedEntries}
