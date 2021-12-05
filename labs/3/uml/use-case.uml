@@ -1,0 +1,43 @@
+@startuml
+
+left to right direction
+
+actor User
+
+package "File Manager" {
+    usecase "View File" as u1
+    usecase "View Word Count" as u2
+    usecase "Copy File" as u3
+    usecase "Move File" as u4
+    usecase "Delete File" as u5
+    usecase "Select File" as u6
+    usecase "Edit File" as u7
+    usecase "Clear HTML tags" as u8
+    usecase "Copy without duplicate lines" as u9
+
+    u9 ..> u6 : include
+    u8 ..> u6 : include
+    u7 ..> u6 : include
+    u5 ..> u6 : include
+    u4 ..> u6 : include
+    u3 ..> u6 : include
+    u2 ..> u6 : include
+    u1 ..> u6 : include
+
+    usecase "View Directory" as d1
+    usecase "Change Directory" as d2
+}
+
+User-->u1
+User-->u2
+User-->u3
+User-->u4
+User-->u5
+User-->u6
+User-->u7
+User-->u8
+User-->u9
+User-->d1
+User-->d2
+
+@enduml

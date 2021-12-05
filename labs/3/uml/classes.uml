@@ -1,0 +1,66 @@
+@startuml
+
+class File {
+    -string path
+    +string getPath()
+    +string getName()
+    +Directory getParent()
+    +Promise<string> getContent()
+    +Promise<void> setContent(string content)
+    +Promise<void> remove()
+}
+
+class Directory {
+    {static} +Directory getCurrent()
+    +Promise<Array<File>> list()
+    +Promise<File> copyHere(File file)
+    +Promise<File> moveHere(File file)
+    +Promise<void> remove()
+}
+
+interface FileAction {
+    Promise<void> execute(File file)
+}
+
+interface FileViewer {
+    Promise<Array<string>> view(File file)
+}
+
+class FileEditor {
+}
+
+class FileTagCleaner {
+}
+
+class FileTruncator {
+}
+
+class FileContentViewer {
+}
+
+class FileWordCounter {
+}
+
+File ..> Directory
+File <|-- Directory
+File <.. Directory
+File <.. FileAction
+File <.. FileViewer
+FileAction <|.. FileTruncator
+FileAction <|.. FileTagCleaner
+FileAction <|.. FileEditor
+FileViewer <|.. FileContentViewer
+FileViewer <|.. FileWordCounter
+
+package "User Interface" <<Cloud>> {
+    App *-- Panel
+    App *-- Viewer
+    App *-- FullScreen
+    Panel *-- Entry
+    File <.. Entry
+    FileViewer <.. Viewer
+    FileAction <.. Panel
+}
+
+
+@enduml
