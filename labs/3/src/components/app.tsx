@@ -4,7 +4,7 @@ import {FullScreen} from "./full-screen";
 import {Panel} from "./panel";
 import {Viewer} from "./viewer";
 import {File} from "../file";
-import {FileContentViewer} from "../file-content-viewer";
+import {FileShortcutsHighlighter} from "../file-shortcuts-highlighter";
 import {FileWordCounter} from "../file-word-counter";
 
 export const App = () => {
@@ -26,7 +26,7 @@ export const App = () => {
         setSelectedEntryGeneration(selectedEntryGeneration + 1);
     };
 
-    const fileContentViewer = new FileContentViewer();
+    const fileShortcutsHighlighter = new FileShortcutsHighlighter("•", "•");
     const fileWordCounter = new FileWordCounter();
 
     useInput((input, key) => {
@@ -60,7 +60,7 @@ export const App = () => {
                 <Viewer
                     title="Preview"
                     file={selectedEntry}
-                    fileViewer={fileContentViewer}
+                    fileViewer={fileShortcutsHighlighter}
                     fileGeneration={selectedEntryGeneration}
                 />
                 <Viewer
