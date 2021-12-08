@@ -32,6 +32,16 @@ export class Directory extends File {
         return new File(path);
     }
 
+    public async getContent(): Promise<string> {
+        const entries = await this.list();
+
+        return entries.map(entry => entry.getName()).join("\n");
+    }
+
+    public async setContent(content: string): Promise<void> {
+        return;
+    }
+
     public remove(): Promise<void> {
         return rmdir(this.getPath());
     }
