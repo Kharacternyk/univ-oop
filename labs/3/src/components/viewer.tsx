@@ -23,7 +23,7 @@ export const Viewer = ({title, file, fileViewer, fileGeneration}: Props) => {
 
     return lines.length ? (
         <Box flexDirection="column" flexGrow={1} flexBasis={0} margin={1}>
-            <Text bold color="magenta" wrap="truncate-middle">{title}</Text>
+            <Text bold color="green" wrap="truncate-middle">{title}</Text>
             <Box borderStyle="single">
                 <Text>
                     {

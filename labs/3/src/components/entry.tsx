@@ -19,7 +19,7 @@ export const Entry = ({focused, file}: Props) => {
             if (await typedFile.isDirectory()) {
                 setColor("blue");
             } else if (await typedFile.isMultilingual()) {
-                setColor("yellow");
+                setColor("green");
             }
         }
 

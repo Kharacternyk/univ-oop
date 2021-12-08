@@ -26,7 +26,7 @@ export const App = () => {
         setSelectedEntryGeneration(selectedEntryGeneration + 1);
     };
 
-    const fileShortcutsHighlighter = new FileShortcutsHighlighter("•", "•");
+    const fileShortcutsHighlighter = new FileShortcutsHighlighter("↪", "↩");
     const fileWordCounter = new FileWordCounter();
 
     useInput((input, key) => {
