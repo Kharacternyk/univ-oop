@@ -5,25 +5,25 @@ class File {
     +string getPath()
     +string getName()
     +Directory getParent()
-    +Promise<string> getContent()
-    +Promise<void> setContent(string content)
-    +Promise<void> remove()
+    +async string getContent()
+    +async void setContent(string content)
+    +async void remove()
 }
 
 class Directory {
     {static} +Directory getCurrent()
-    +Promise<Array<File>> list()
-    +Promise<File> copyHere(File file)
-    +Promise<File> moveHere(File file)
-    +Promise<void> remove()
+    +async Array<File> list()
+    +async File copyHere(File file)
+    +async File moveHere(File file)
+    +async void remove()
 }
 
 interface FileAction {
-    Promise<void> execute(File file)
+    async void execute(File file)
 }
 
 interface FileViewer {
-    Promise<Array<string>> view(File file)
+    async Array<string> view(File file)
 }
 
 class FileEditor {
@@ -39,6 +39,20 @@ class FileContentViewer {
 }
 
 class FileWordCounter {
+    -FileContentViewer contentViewer
+}
+
+class FileShortcutsHighlighter {
+    -FileContentViewer contentViewer
+    -string highlighterStart
+    -string highlighterEnd
+}
+
+class FileTypeDecorator {
+    -boolean? cachedIsDirectory
+    -boolean? cachedIsMultilingual
+    +async boolean isDirectory()
+    +async boolean isMultilingual()
 }
 
 File ..> Directory
@@ -51,15 +65,22 @@ FileAction <|.. FileTagCleaner
 FileAction <|.. FileEditor
 FileViewer <|.. FileContentViewer
 FileViewer <|.. FileWordCounter
+FileViewer <|.. FileShortcutsHighlighter
+FileContentViewer <.. FileWordCounter
+FileContentViewer <.. FileShortcutsHighlighter
+File <|-- FileTypeDecorator
+File <.. FileTypeDecorator
 
 package "User Interface" <<Cloud>> {
     App *-- Panel
     App *-- Viewer
     App *-- FullScreen
     Panel *-- Entry
-    File <.. Entry
+    FileTypeDecorator <.. Entry
     FileViewer <.. Viewer
     FileAction <.. Panel
+    Directory <.. Panel
+    File <.. Panel
 }
 
 
